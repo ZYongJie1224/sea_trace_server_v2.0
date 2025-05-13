@@ -1,0 +1,46 @@
+2025/05/14 01:09:41.902  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:09:42.080  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:09:42.080  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:09:42.081  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:09:42.081  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/14 01:09:42.627  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:09:42.747  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:09:42.747  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:09:42.748  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:09:42.748  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/14 01:09:44.591  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:09:44.683  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:09:44.683  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:09:44.684  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:09:44.684  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/14 01:09:46.614  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:09:46.719  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:09:46.719  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:09:46.719  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:09:46.720  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/14 01:09:49.034  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:09:49.256  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:09:49.256  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:09:49.257  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:09:49.257  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/14 01:10:38.566  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:10:38.660  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:10:38.660  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:10:38.660  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:10:38.661  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/14 01:11:37.486  [E] [auth_controller.go:37]  登录失败: 密码错误
+2025/05/14 01:11:37.487  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    59.6359ms|   match|[46m POST    [0m /api/auth/login   r:/api/auth/login
+2025/05/14 01:12:10.875  [E] [auth_controller.go:37]  登录失败: 密码错误
+2025/05/14 01:12:10.875  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    48.7589ms|   match|[46m POST    [0m /api/auth/login   r:/api/auth/login
+2025/05/14 01:12:11.820  [E] [auth_controller.go:37]  登录失败: 密码错误
+2025/05/14 01:12:11.820  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    50.0415ms|   match|[46m POST    [0m /api/auth/login   r:/api/auth/login
+2025/05/14 01:13:47.381  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:13:47.482  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:13:47.482  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:13:47.483  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:13:47.483  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/14 01:15:09.709  [I] [main.go:44]  启动应用服务...
+2025/05/14 01:15:09.810  [I] [server.go:281]  http server Running on http://:8080
+2025/05/14 01:15:09.810  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/14 01:15:09.811  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/14 01:15:09.811  [I] [server.go:281]  http server Running on http://localhost:8088

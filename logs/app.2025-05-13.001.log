@@ -1,0 +1,26 @@
+2025/05/13 23:54:40.115  [I] [main.go:44]  启动应用服务...
+2025/05/13 23:54:40.206  [I] [server.go:281]  http server Running on http://:8080
+2025/05/13 23:54:40.206  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/13 23:54:40.207  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/13 23:54:40.207  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/13 23:56:02.144  [D] [router.go:1305]  |      127.0.0.1|[42m 200 [0m|      445.1µs|   match|[44m GET     [0m /     r:/
+2025/05/13 23:56:06.722  [D] [router.go:1305]  |      127.0.0.1|[43m 404 [0m|     1.0028ms| nomatch|[44m GET     [0m /favicon.ico
+2025/05/13 23:56:08.736  [D] [router.go:1305]  |      127.0.0.1|[42m 200 [0m|      419.3µs|   match|[44m GET     [0m /qps   r:/qps
+2025/05/13 23:56:13.501  [C] [config.go:500]  the request url is  /task
+2025/05/13 23:56:13.502  [C] [config.go:501]  Handler crashed with error interface conversion: interface {} is nil, not [][]string
+2025/05/13 23:56:13.502  [C] [config.go:507]  C:/Program Files/Go/src/runtime/panic.go:792
+2025/05/13 23:56:13.503  [C] [config.go:507]  C:/Program Files/Go/src/runtime/iface.go:275
+2025/05/13 23:56:13.503  [C] [config.go:507]  D:/Code/Go/pkg/mod/github.com/beego/beego/v2@v2.1.0/server/web/admin_controller.go:105
+2025/05/13 23:56:13.503  [C] [config.go:507]  C:/Program Files/Go/src/reflect/value.go:584
+2025/05/13 23:56:13.504  [C] [config.go:507]  C:/Program Files/Go/src/reflect/value.go:368
+2025/05/13 23:56:13.504  [C] [config.go:507]  D:/Code/Go/pkg/mod/github.com/beego/beego/v2@v2.1.0/server/web/router.go:1233
+2025/05/13 23:56:13.504  [C] [config.go:507]  D:/Code/Go/pkg/mod/github.com/beego/beego/v2@v2.1.0/server/web/filter.go:83
+2025/05/13 23:56:13.504  [C] [config.go:507]  D:/Code/Go/pkg/mod/github.com/beego/beego/v2@v2.1.0/server/web/router.go:1002
+2025/05/13 23:56:13.504  [C] [config.go:507]  C:/Program Files/Go/src/net/http/server.go:3301
+2025/05/13 23:56:13.505  [C] [config.go:507]  C:/Program Files/Go/src/net/http/server.go:2102
+2025/05/13 23:56:13.505  [C] [config.go:507]  C:/Program Files/Go/src/runtime/asm_amd64.s:1700
+2025/05/13 23:56:39.560  [I] [main.go:44]  启动应用服务...
+2025/05/13 23:56:39.655  [I] [server.go:281]  http server Running on http://:8080
+2025/05/13 23:56:39.655  [D] [admin.go:86]  now we don't start tasks here, if you use task module, please invoke task.StartTask, or task will not be executed
+2025/05/13 23:56:39.656  [I] [admin.go:92]  Admin server Running on localhost:8088
+2025/05/13 23:56:39.656  [I] [server.go:281]  http server Running on http://localhost:8088
