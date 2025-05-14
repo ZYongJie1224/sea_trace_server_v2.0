@@ -16,6 +16,21 @@ func init() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+	// 公司管理员路由
+	web.Router("/api/admin/company/info", &controllers.CompanyAdminController{}, "get:CompanyInfo;put:UpdateCompanyInfo")
+
+	web.Router("/api/admin/company/operator/create", &controllers.CompanyAdminController{}, "post:CreateOperator")
+	web.Router("/api/admin/company/operator/delete/:id", &controllers.CompanyAdminController{}, "delete:DeleteOperator")
+	web.Router("/api/admin/company/operators", &controllers.CompanyAdminController{}, "get:GetOperators")
+	web.Router("/api/admin/company/operator/status/:id", &controllers.CompanyAdminController{}, "put:UpdateOperatorStatus")
+	web.Router("/api/admin/company/operator/info/:id", &controllers.CompanyAdminController{}, "put:UpdateOperatorInfo")
+
+	// Admin API
+	web.Router("/api/admin/stats", &controllers.AdminController{}, "get:Stats")
+
+	// Chain API
+	web.Router("/api/chain/sysinfo", &controllers.ChainController{}, "get:GetChainInfo")
+	web.Router("/api/chain/trace/:goodId", &controllers.ChainController{}, "get:TraceInfo")
 	// 初始化路由 - 仅用于系统初始化
 	web.Router("/api/init/admin", &controllers.InitController{}, "get:InitAdmin")
 
@@ -39,6 +54,7 @@ func init() {
 	// 区块链信息路由 - 任何认证用户可访问
 	web.Router("/api/chain/sysinfo", chainController, "get:GetChainInfo")
 	web.InsertFilter("/api/chain/sysinfo", web.BeforeRouter, middleware.JWTAuth)
+	web.Router("/api/chain/nodes", &controllers.ChainController{}, "get:GetNodeInfo")
 
 	// 超级管理员路由
 	web.Router("/api/su/company/list", superAdminController, "get:CompanyList")
@@ -56,10 +72,14 @@ func init() {
 	web.Router("/api/admin/company/info", companyAdminController, "put:UpdateCompanyInfo")
 	web.Router("/api/admin/company/operator/create", companyAdminController, "post:CreateOperator")
 	web.Router("/api/admin/company/operator/delete/:id", companyAdminController, "delete:DeleteOperator")
-
 	// 为所有公司管理员路由添加中间件
 	web.InsertFilter("/api/admin/*", web.BeforeRouter, middleware.JWTAuth)
 	web.InsertFilter("/api/admin/*", web.BeforeRouter, middleware.CompanyAdminAuth)
+	// 用户管理路由组
+	web.Router("/api/admin/user/list", &controllers.UserManagementController{}, "get:ListUsers")
+	web.Router("/api/admin/user/create", &controllers.UserManagementController{}, "post:CreateUser")
+	web.Router("/api/admin/user/update/:id", &controllers.UserManagementController{}, "put:UpdateUser")
+	web.Router("/api/admin/user/delete/:id", &controllers.UserManagementController{}, "delete:DeleteUser")
 
 	// 操作员路由 - 根据公司类型进行操作
 	web.Router("/api/operator/reggood", operatorController, "post:RegisterGood")    // 货主注册货物

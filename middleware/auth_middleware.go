@@ -5,6 +5,7 @@ import (
 
 	"sea_trace_server_V2.0/utils"
 
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web/context"
 )
 
@@ -37,7 +38,8 @@ func JWTAuth(ctx *context.Context) {
 	ctx.Input.SetData("user_id", claims.UserID)
 	ctx.Input.SetData("username", claims.Username)
 	ctx.Input.SetData("role", claims.Role)
-	ctx.Input.SetData("company_id", claims.CompanyID)
+	ctx.Input.SetData("company_id", claims.CompanyId)
+	logs.Info("token解析comid", claims.CompanyId)
 }
 
 // SuperAdminAuth 超级管理员权限中间件

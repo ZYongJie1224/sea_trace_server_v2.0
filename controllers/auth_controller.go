@@ -32,15 +32,43 @@ func (c *AuthController) Login() {
 		return
 	}
 
-	user, err := models.CheckLogin(req.Username, req.Password)
+	// 先检查用户是否存在
+	user, err := models.GetUserByUsername(req.Username)
 	if err != nil {
-		logs.Error("登录失败: %v", err)
-		c.Data["json"] = utils.ErrorResponse("登录失败: " + err.Error())
+		logs.Warn("用户登录失败，用户不存在 [username=%s, time=%s]: %v",
+			req.Username, "2025-05-14 07:21:42", err)
+		c.Data["json"] = utils.ErrorResponse("用户名或密码错误")
 		c.ServeJSON()
 		return
 	}
 
-	token, err := utils.GenerateToken(user.ID, user.Username, user.Role, user.CompanyID)
+	// 检查用户状态是否正常
+	if user.Status != 1 {
+		logs.Warn("被禁用的账户尝试登录 [username=%s, status=%d, time=%s]",
+			req.Username, user.Status, "2025-05-14 07:21:42")
+		c.Data["json"] = utils.ErrorResponse("账户已被禁用，请联系管理员")
+		c.ServeJSON()
+		return
+	}
+
+	// 验证密码
+	if !utils.CheckPasswordHash(req.Password, user.Password) {
+		logs.Warn("用户登录失败，密码错误 [username=%s, time=%s]",
+			req.Username, "2025-05-14 07:21:42")
+		c.Data["json"] = utils.ErrorResponse("用户名或密码错误")
+		c.ServeJSON()
+		return
+	}
+
+	// 更新最后登录时间
+	models.UpdateLastLogin(user.ID)
+
+	// 记录登录成功
+	logs.Info("用户登录成功 [username=%s, role=%s, company_id=%d, time=%s]",
+		user.Username, user.Role, user.CompanyId, "2025-05-14 07:21:42")
+
+	// 生成令牌
+	token, err := utils.GenerateToken(user.ID, user.Username, user.Role, user.CompanyId)
 	if err != nil {
 		logs.Error("生成token失败: %v", err)
 		c.Data["json"] = utils.ErrorResponse("生成token失败")
@@ -48,8 +76,9 @@ func (c *AuthController) Login() {
 		return
 	}
 
-	c.Data["json"] = utils.SuccessResponse(map[string]string{
-		"token": token,
+	c.Data["json"] = utils.SuccessResponse(map[string]interface{}{
+		"token":     token,
+		"user_info": models.GetUserInfo(user),
 	})
 	c.ServeJSON()
 }
@@ -63,6 +92,15 @@ func (c *AuthController) MyInfo() {
 	user, err := models.GetUserByID(userID)
 	if err != nil {
 		c.Data["json"] = utils.ErrorResponse("获取用户信息失败")
+		c.ServeJSON()
+		return
+	}
+
+	// 检查用户状态是否正常
+	if user.Status != 1 {
+		logs.Warn("被禁用账户尝试获取信息 [username=%s, id=%d, status=%d, time=%s]",
+			user.Username, userID, user.Status, "2025-05-14 07:21:42")
+		c.Data["json"] = utils.ErrorResponse("账户已被禁用，请联系管理员")
 		c.ServeJSON()
 		return
 	}

@@ -13,7 +13,7 @@ type JWTClaims struct {
 	UserID    int    `json:"user_id"`
 	Username  string `json:"username"`
 	Role      string `json:"role"`
-	CompanyID int    `json:"company_id"`
+	CompanyId int    `json:"company_id"`
 	jwt.StandardClaims
 }
 
@@ -30,7 +30,7 @@ func GenerateToken(userID int, username, role string, companyID int) (string, er
 		UserID:    userID,
 		Username:  username,
 		Role:      role,
-		CompanyID: companyID,
+		CompanyId: companyID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
 			IssuedAt:  time.Now().Unix(),
