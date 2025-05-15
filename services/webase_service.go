@@ -90,13 +90,16 @@ type TransactionCallRequest struct {
 	FuncParam       []interface{} `json:"funcParam"`
 	User            string        `json:"user"`
 	SignUserID      string        `json:"signUserId"`
+	ContractName    string        `json:"contractName"`
+	UseCns          bool          `json:"useCns"`
 }
 
 // TransactionResponse 交易响应结构
 type TransactionResponse struct {
-	Code    int                    `json:"code"`
-	Message string                 `json:"message"`
-	Data    map[string]interface{} `json:"data"`
+	Code            int                    `json:"code"`
+	Message         string                 `json:"message"`
+	Data            map[string]interface{} `json:"data"`
+	TransactionHash string                 `json:"transactionHash"`
 }
 
 // ClientVersionResponse 客户端版本响应
@@ -284,8 +287,10 @@ func (w *WebaseService) sendTransaction(endpoint string, funcName string, funcPa
 		ContractAddress: w.ContractAddress,
 		FuncName:        funcName,
 		FuncParam:       funcParam,
-		User:            "ZYongJie1224", // 当前登录用户
-		SignUserID:      userID,
+		User:            userID, // 当前登录用户
+		// SignUserID:      userID,
+		ContractName: "Traceability",
+		UseCns:       false,
 	}
 
 	url := fmt.Sprintf("%s%s", w.BaseURL, endpoint)
@@ -314,18 +319,19 @@ func (w *WebaseService) sendTransaction(endpoint string, funcName string, funcPa
 
 // RegisterCompany 注册公司
 func (w *WebaseService) RegisterCompany(name string, companyType int, adminAddress string) (string, error) {
+	admin, _ := web.AppConfig.String("super_admin_blockchain_address")
 	logs.Info("开始注册公司 [name=%s, type=%d, adminAddress=%s, user=%s, time=%s]",
 		name, companyType, adminAddress, "ZYongJie1224", "2025-05-14 09:05:03")
 
 	funcParam := []interface{}{name, companyType, adminAddress}
-	result, err := w.sendTransaction("/WeBASE-Front/trans/handle", "registerCompany", funcParam, "super_admin_user")
+	result, err := w.sendTransaction("/WeBASE-Front/trans/handle", "registerCompany", funcParam, admin)
 	if err != nil {
 		return "", err
 	}
 
-	if txHash, ok := result.Data["transactionHash"].(string); ok {
-		logs.Info("公司注册成功 [name=%s, txHash=%s]", name, txHash)
-		return txHash, nil
+	if result.TransactionHash != "" {
+		logs.Info("公司注册成功 [name=%s, txHash=%s]", name, result.TransactionHash)
+		return result.TransactionHash, nil
 	}
 	return "", errors.New("无法获取交易哈希")
 }
@@ -550,7 +556,7 @@ func (w *WebaseService) GetChainSystemInfo() (*ChainSystemInfo, error) {
 		FailedTxSum:   txInfo.FailedTxSum,
 		SuccessTxSum:  successTxSum,
 		TxSuccessRate: txSuccessRate,
-		QueryTime:     "2025-05-14 09:05:03", // 当前时间 - 已更新
+		QueryTime:     time.Now().Format("2006-01-02 15:04:05"), // 当前时间 - 已更新
 		NodeCount:     nodeCount,
 	}
 

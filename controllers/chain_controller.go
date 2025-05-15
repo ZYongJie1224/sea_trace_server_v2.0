@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"time"
+
 	"sea_trace_server_V2.0/services"
 	"sea_trace_server_V2.0/utils"
 
@@ -31,8 +33,8 @@ func (c *ChainController) GetChainInfo() {
 	// 增加系统当前时间和用户信息
 	response := map[string]interface{}{
 		"chain_info":   chainInfo,
-		"system_time":  "2025-05-14 02:40:11", // 当前时间
-		"current_user": "ZYongJie1224",        // 当前用户
+		"system_time":  time.Now().Format("2006-01-02 15:04:05"), // 当前时间
+		"current_user": "ZYongJie1224",                           // 当前用户
 	}
 
 	c.Data["json"] = utils.SuccessResponse(response)
@@ -134,8 +136,8 @@ func (c *ChainController) TraceInfo() {
 		"status":       status,
 		"status_code":  statusCode,
 		"trace_points": tracePoints,
-		"query_time":   "2025-05-14 02:40:11", // 当前时间
-		"current_user": "ZYongJie1224",        // 当前用户
+		"query_time":   time.Now().Format("2006-01-02 15:04:05"), // 当前时间
+		"current_user": "ZYongJie1224",                           // 当前用户
 	}
 
 	c.Data["json"] = utils.SuccessResponse(response)
@@ -167,7 +169,7 @@ func (c *ChainController) GetNodeInfo() {
 			"active":      node.Active,
 			"p2p_port":    node.P2PPort,
 			"address":     node.Address,
-			"update_time": "2025-05-14 02:40:11", // 当前时间
+			"update_time": time.Now().Format("2006-01-02 15:04:05"), // 当前时间
 		}
 		nodes = append(nodes, nodeInfo)
 	}
@@ -176,8 +178,8 @@ func (c *ChainController) GetNodeInfo() {
 	response := map[string]interface{}{
 		"nodes":        nodes,
 		"total":        len(nodes),
-		"system_time":  "2025-05-14 02:40:11", // 当前时间
-		"current_user": "ZYongJie1224",        // 当前用户
+		"system_time":  time.Now().Format("2006-01-02 15:04:05"), // 当前时间
+		"current_user": "ZYongJie1224",                           // 当前用户
 	}
 
 	c.Data["json"] = utils.SuccessResponse(response)

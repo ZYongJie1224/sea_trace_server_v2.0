@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/beego/beego/v2/core/logs"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -12,6 +13,8 @@ func HashPassword(password string) (string, error) {
 
 // CheckPasswordHash 验证密码是否匹配哈希
 func CheckPasswordHash(password, hash string) bool {
+
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	logs.Emergency(err)
 	return err == nil
 }

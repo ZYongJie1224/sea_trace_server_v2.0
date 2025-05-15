@@ -165,6 +165,7 @@ func AddUser(user User) string {
 
 // CreateUser 创建用户 (使用分离的参数)
 func CreateUser(username, password, realName, role string, companyID int, email string, phone string) (*User, error) {
+	logs.Emergency(password)
 	hashedPassword, err := utils.HashPassword(password)
 	if err != nil {
 		return nil, err

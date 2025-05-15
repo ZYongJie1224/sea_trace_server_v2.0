@@ -3,6 +3,7 @@ package controllers
 import (
 	"encoding/json"
 	"strconv"
+	"time"
 
 	"sea_trace_server_V2.0/models"
 	"sea_trace_server_V2.0/services"
@@ -374,25 +375,25 @@ func (c *SuperAdminController) CreateCompanyAdmin() {
 		return
 	}
 
-	// 1. 首先创建区块链用户
-	webaseService := services.NewWebaseService()
-	blockchainUser, err := webaseService.CreateBlockchainUser(
-		req.Username,
-		2,    // 使用外部用户类型
-		true, // 获取私钥
-	)
+	// // 1. 首先创建区块链用户
+	// webaseService := services.NewWebaseService()
+	// blockchainUser, err := webaseService.CreateBlockchainUser(
+	// 	req.Username,
+	// 	2,    // 使用外部用户类型
+	// 	true, // 获取私钥
+	// )
 
-	if err != nil {
-		logs.Error("为公司管理员创建区块链用户失败 [username=%s, company=%s, error=%v, time=%s]",
-			req.Username, company.CompanyName, err, "2025-05-14 09:59:00")
-		c.Data["json"] = utils.ErrorResponse("创建区块链用户失败: " + err.Error())
-		c.ServeJSON()
-		return
-	}
+	// if err != nil {
+	// 	logs.Error("为公司管理员创建区块链用户失败 [username=%s, company=%s, error=%v, time=%s]",
+	// 		req.Username, company.CompanyName, err, "2025-05-14 09:59:00")
+	// 	c.Data["json"] = utils.ErrorResponse("创建区块链用户失败: " + err.Error())
+	// 	c.ServeJSON()
+	// 	return
+	// }
 
-	logs.Info("为公司管理员创建区块链用户成功 [username=%s, address=%s, company=%s, time=%s]",
-		req.Username, blockchainUser.Address, company.CompanyName, "2025-05-14 09:59:00")
-
+	// logs.Info("为公司管理员创建区块链用户成功 [username=%s, address=%s, company=%s, time=%s]",
+	// 	req.Username, blockchainUser.Address, company.CompanyName, "2025-05-14 09:59:00")
+	// logs.Info(req.Password)
 	// 2. 创建数据库用户
 	user, err := models.CreateUser(
 		req.Username,
@@ -411,38 +412,38 @@ func (c *SuperAdminController) CreateCompanyAdmin() {
 		return
 	}
 
-	// 3. 更新用户的区块链地址信息
-	user.BlockchainAddr = blockchainUser.Address
-	user.SignUserID = blockchainUser.SignUserID
-	user.BlockchainType = blockchainUser.Type
+	// // 3. 更新用户的区块链地址信息
+	// user.BlockchainAddr = blockchainUser.Address
+	// user.SignUserID = blockchainUser.SignUserID
+	// user.BlockchainType = blockchainUser.Type
 
-	_, err = models.UpdateUser(strconv.Itoa(user.ID), user)
-	if err != nil {
-		logs.Warning("更新管理员区块链信息失败 [username=%s, address=%s, error=%v, time=%s]",
-			user.Username, blockchainUser.Address, err, "2025-05-14 09:59:00")
-		// 不阻止创建流程，仅记录警告
-	}
+	// _, err = models.UpdateUser(strconv.Itoa(user.ID), user)
+	// if err != nil {
+	// 	logs.Warning("更新管理员区块链信息失败 [username=%s, address=%s, error=%v, time=%s]",
+	// 		user.Username, blockchainUser.Address, err, "2025-05-14 09:59:00")
+	// 	// 不阻止创建流程，仅记录警告
+	// }
 
-	// 4. 如果公司还没有注册到区块链，使用创建的区块链地址注册公司
-	if company.BlockchainTxHash == "" {
-		txHash, err := webaseService.RegisterCompany(
-			company.CompanyName,
-			int(company.CompanyType),
-			blockchainUser.Address, // 使用新创建的区块链地址
-		)
+	// // 4. 如果公司还没有注册到区块链，使用创建的区块链地址注册公司
+	// if company.BlockchainTxHash == "" {
+	// 	txHash, err := webaseService.RegisterCompany(
+	// 		company.CompanyName,
+	// 		int(company.CompanyType),
+	// 		blockchainUser.Address, // 使用新创建的区块链地址
+	// 	)
 
-		if err != nil {
-			logs.Error("区块链注册公司失败 [company=%s, id=%d, address=%s, error=%v, time=%s]",
-				company.CompanyName, company.ID, blockchainUser.Address, err, "2025-05-14 09:59:00")
-		} else {
-			logs.Info("公司已在区块链成功注册 [company=%s, id=%d, address=%s, txHash=%s, time=%s]",
-				company.CompanyName, company.ID, blockchainUser.Address, txHash, "2025-05-14 09:59:00")
+	// 	if err != nil {
+	// 		logs.Error("区块链注册公司失败 [company=%s, id=%d, address=%s, error=%v, time=%s]",
+	// 			company.CompanyName, company.ID, blockchainUser.Address, err, "2025-05-14 09:59:00")
+	// 	} else {
+	// 		logs.Info("公司已在区块链成功注册 [company=%s, id=%d, address=%s, txHash=%s, time=%s]",
+	// 			company.CompanyName, company.ID, blockchainUser.Address, txHash, "2025-05-14 09:59:00")
 
-			// 将交易哈希保存到公司记录中
-			company.BlockchainTxHash = txHash
-			models.UpdateCompany(company)
-		}
-	}
+	// 		// 将交易哈希保存到公司记录中
+	// 		company.BlockchainTxHash = txHash
+	// 		models.UpdateCompany(company)
+	// 	}
+	// }
 
 	// 记录操作日志
 	logs.Info("超级管理员创建公司管理员成功 [username=%s, company=%s, companyID=%d, 操作者=%s, 时间=%s]",
@@ -452,13 +453,13 @@ func (c *SuperAdminController) CreateCompanyAdmin() {
 	c.Data["json"] = utils.SuccessResponse(map[string]interface{}{
 		"user":    user,
 		"company": company,
-		"blockchain_info": map[string]interface{}{
-			"address":     blockchainUser.Address,
-			"public_key":  blockchainUser.PublicKey,
-			"private_key": blockchainUser.PrivateKey, // 注意：实际环境不应直接返回私钥
-			"tx_hash":     company.BlockchainTxHash,
-			"registered":  company.BlockchainTxHash != "",
-		},
+		// "blockchain_info": map[string]interface{}{
+		// 	"address":     blockchainUser.Address,
+		// 	"public_key":  blockchainUser.PublicKey,
+		// 	"private_key": blockchainUser.PrivateKey, // 注意：实际环境不应直接返回私钥
+		// 	"tx_hash":     company.BlockchainTxHash,
+		// 	"registered":  company.BlockchainTxHash != "",
+		// },
 	})
 	c.ServeJSON()
 }
@@ -602,7 +603,7 @@ func (c *SuperAdminController) GetSystemStats() {
 		"goods_count":        goodsCount,
 		"transactions_count": transactionsCount,
 		"blockchain_info":    chainInfo,
-		"query_time":         "2025-05-14 09:59:00",
+		"query_time":         time.Now().Format("2006-01-02 15:04:05"),
 	}
 
 	c.Data["json"] = utils.SuccessResponse(stats)
