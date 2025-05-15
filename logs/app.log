@@ -3743,3 +3743,98 @@
 2025/05/15 16:33:41.821  [I] [admin.go:92]  Admin server Running on localhost:8088
 2025/05/15 16:33:41.820  [I] [server.go:281]  http server Running on http://:8080
 2025/05/15 16:33:41.821  [I] [server.go:281]  http server Running on http://localhost:8088
+2025/05/15 16:33:57.736  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/operator/goods/inspect
+2025/05/15 16:33:57.740  [I] [auth_middleware.go:42]  token解析comid 5
+2025/05/15 16:33:57.742  [I] [goods_controller.go:217]  验货使用公司区块链地址 [company=验货商, address=0xff695ec1d26452551fcd68e4d4988b156e21eda7, time=2025-05-15 03:06:28]
+2025/05/15 16:33:57.747  [I] [goods.go:318]  成功保存货物验货信息 [goodID=G3202505150144e467, time=2025-05-15 02:50:46]
+2025/05/15 16:33:57.748  [I] [webase_service.go:378]  开始货物验证 [goodID=G3202505150144e467, inspectionInfo=完美, userAddress=0xff695ec1d26452551fcd68e4d4988b156e21eda7, user=ZYongJie1224, time=2025-05-14 09:05:03]
+2025/05/15 16:33:57.829  [D] [webase_service.go:266]  POST请求成功 [url=http://localhost:5002/WeBASE-Front/trans/handle, responseSize=2221]
+2025/05/15 16:33:57.830  [I] [webase_service.go:315]  交易调用成功 [function=inspectGood, time=2025-05-14 09:05:03, user=ZYongJie1224]
+2025/05/15 16:33:57.833  [I] [goods.go:206]  成功更新货物状态 [goodID=G3202505150144e467, status=3, time=2025-05-15 02:50:46]
+2025/05/15 16:33:57.833  [I] [webase_service.go:390]  货物注册成功 [goodID=G3202505150144e467, txHash=0x7862a6362048267da5ef120b918addec34d1fdab284c19f3e3ee9c6993494840]
+2025/05/15 16:33:57.838  [I] [goods.go:206]  成功更新货物状态 [goodID=G3202505150144e467, status=3, time=2025-05-15 02:50:46]
+2025/05/15 16:33:57.839  [I] [goods_service.go:281]  货物验货信息记录成功 [goodID=G3202505150144e467, inspector=验货商, passed=true, txHash=0x7862a6362048267da5ef120b918addec34d1fdab284c19f3e3ee9c6993494840, time=2025-05-15 02:50:46]
+2025/05/15 16:33:57.839  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    99.8516ms|   match|[46m POST    [0m /api/operator/goods/inspect   r:/api/operator/goods/inspect
+2025/05/15 16:35:27.185  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/public/trace
+2025/05/15 16:35:27.192  [I] [webase_service.go:575]  开始获取货物溯源信息 [goodID=G3202505150144e467, user=ZYongJie1224, time=2025-05-14 09:05:03]
+2025/05/15 16:35:27.207  [D] [webase_service.go:266]  POST请求成功 [url=http://localhost:5002/WeBASE-Front/trans/call, responseSize=127]
+2025/05/15 16:35:27.207  [I] [webase_service.go:315]  交易调用成功 [function=getFullTrace, time=2025-05-14 09:05:03, user=ZYongJie1224]
+2025/05/15 16:35:27.207  [E] [webase_service.go:619]  无法解析溯源信息 [goodID=G3202505150144e467]
+2025/05/15 16:35:27.208  [W] [goods_service.go:391]  获取区块链溯源记录失败: 无法解析溯源信息
+2025/05/15 16:35:27.208  [I] [goods_service.go:396]  获取货物溯源信息成功 [goodID=G3202505150144e467, time=2025-05-15 02:50:46]
+2025/05/15 16:35:27.208  [I] [goods_controller.go:372]  公开溯源查询请求 [goodID=G3202505150144e467, IP=::1, time=2025-05-15 03:06:28]
+2025/05/15 16:35:27.208  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    19.1008ms|   match|[44m GET     [0m /api/public/trace   r:/api/public/trace
+2025/05/15 16:35:45.976  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/users/logout
+2025/05/15 16:35:45.978  [D] [router.go:1305]  |            ::1|[43m 404 [0m|           0s| nomatch|[46m POST    [0m /api/users/logout
+2025/05/15 16:35:54.467  [D] [router.go:1305]  |            ::1|[42m 200 [0m|      419.1µs| nomatch|[47m OPTIONS [0m /api/auth/login
+2025/05/15 16:35:54.521  [M] [password.go:18]  <nil>
+2025/05/15 16:35:54.527  [I] [auth_controller.go:67]  用户登录成功 [username=jxsop, role=operator, company_id=6, time=2025-05-14 07:21:42]
+2025/05/15 16:35:54.527  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    58.3419ms|   match|[46m POST    [0m /api/auth/login   r:/api/auth/login
+2025/05/15 16:35:54.532  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/auth/myinfo
+2025/05/15 16:35:54.534  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:35:54.535  [D] [router.go:1305]  |            ::1|[42m 200 [0m|      512.3µs|   match|[44m GET     [0m /api/auth/myinfo   r:/api/auth/myinfo
+2025/05/15 16:38:38.615  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/operator/goods/deliver
+2025/05/15 16:38:38.618  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:38:38.618  [I] [goods_controller.go:284]  交付货物使用公司区块链地址 [company=经销商, address=0x775b82277643297e39a83388431419bb413a0b3d, time=2025-05-15 03:06:28]
+2025/05/15 16:38:38.625  [I] [goods.go:360]  成功保存货物交付信息 [goodID=G3202505150144e467, time=2025-05-15 02:50:46]
+2025/05/15 16:38:38.625  [I] [webase_service.go:398]  开始货物交付 [goodID=G3202505150144e467, deliveryInfo=完美, userAddress=0x775b82277643297e39a83388431419bb413a0b3d, user=ZYongJie1224, time=2025-05-14 09:05:03]
+2025/05/15 16:38:38.699  [D] [webase_service.go:266]  POST请求成功 [url=http://localhost:5002/WeBASE-Front/trans/handle, responseSize=2221]
+2025/05/15 16:38:38.700  [I] [webase_service.go:315]  交易调用成功 [function=deliverGood, time=2025-05-14 09:05:03, user=ZYongJie1224]
+2025/05/15 16:38:38.704  [I] [goods.go:206]  成功更新货物状态 [goodID=G3202505150144e467, status=4, time=2025-05-15 02:50:46]
+2025/05/15 16:38:38.705  [I] [webase_service.go:410]  货物注册成功 [goodID=G3202505150144e467, txHash=0x8f19898311b394fce1a88825e83177242da30acb8b4dc577ac80204f92e8ce61]
+2025/05/15 16:38:38.709  [I] [goods.go:206]  成功更新货物状态 [goodID=G3202505150144e467, status=4, time=2025-05-15 02:50:46]
+2025/05/15 16:38:38.710  [I] [goods_service.go:374]  货物交付信息记录成功 [goodID=G3202505150144e467, dealer=经销商, recipient=接受人, txHash=0x8f19898311b394fce1a88825e83177242da30acb8b4dc577ac80204f92e8ce61, time=2025-05-15 02:50:46]
+2025/05/15 16:38:38.711  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    93.6303ms|   match|[46m POST    [0m /api/operator/goods/deliver   r:/api/operator/goods/deliver
+2025/05/15 16:38:45.303  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/public/trace
+2025/05/15 16:38:45.310  [I] [webase_service.go:575]  开始获取货物溯源信息 [goodID=G3202505150144e467, user=ZYongJie1224, time=2025-05-14 09:05:03]
+2025/05/15 16:38:45.314  [D] [webase_service.go:266]  POST请求成功 [url=http://localhost:5002/WeBASE-Front/trans/call, responseSize=127]
+2025/05/15 16:38:45.314  [I] [webase_service.go:315]  交易调用成功 [function=getFullTrace, time=2025-05-14 09:05:03, user=ZYongJie1224]
+2025/05/15 16:38:45.315  [E] [webase_service.go:619]  无法解析溯源信息 [goodID=G3202505150144e467]
+2025/05/15 16:38:45.315  [W] [goods_service.go:391]  获取区块链溯源记录失败: 无法解析溯源信息
+2025/05/15 16:38:45.315  [I] [goods_service.go:396]  获取货物溯源信息成功 [goodID=G3202505150144e467, time=2025-05-15 02:50:46]
+2025/05/15 16:38:45.316  [I] [goods_controller.go:372]  公开溯源查询请求 [goodID=G3202505150144e467, IP=::1, time=2025-05-15 03:06:28]
+2025/05/15 16:38:45.316  [D] [router.go:1305]  |            ::1|[42m 200 [0m|      9.848ms|   match|[44m GET     [0m /api/public/trace   r:/api/public/trace
+2025/05/15 16:41:34.971  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/auth/myinfo
+2025/05/15 16:41:34.972  [D] [router.go:1305]  |            ::1|[42m 200 [0m|       57.8µs| nomatch|[47m OPTIONS [0m /api/auth/myinfo
+2025/05/15 16:41:34.975  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:41:34.977  [D] [router.go:1305]  |            ::1|[42m 200 [0m|     1.7392ms|   match|[44m GET     [0m /api/auth/myinfo   r:/api/auth/myinfo
+2025/05/15 16:41:34.978  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:41:34.979  [D] [router.go:1305]  |            ::1|[42m 200 [0m|     1.0003ms|   match|[44m GET     [0m /api/auth/myinfo   r:/api/auth/myinfo
+2025/05/15 16:43:55.771  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/public/trace
+2025/05/15 16:43:55.777  [I] [webase_service.go:575]  开始获取货物溯源信息 [goodID=G3202505150144e467, user=ZYongJie1224, time=2025-05-14 09:05:03]
+2025/05/15 16:43:55.800  [D] [webase_service.go:266]  POST请求成功 [url=http://localhost:5002/WeBASE-Front/trans/call, responseSize=127]
+2025/05/15 16:43:55.800  [I] [webase_service.go:315]  交易调用成功 [function=getFullTrace, time=2025-05-14 09:05:03, user=ZYongJie1224]
+2025/05/15 16:43:55.800  [E] [webase_service.go:619]  无法解析溯源信息 [goodID=G3202505150144e467]
+2025/05/15 16:43:55.801  [W] [goods_service.go:391]  获取区块链溯源记录失败: 无法解析溯源信息
+2025/05/15 16:43:55.801  [I] [goods_service.go:396]  获取货物溯源信息成功 [goodID=G3202505150144e467, time=2025-05-15 02:50:46]
+2025/05/15 16:43:55.801  [I] [goods_controller.go:372]  公开溯源查询请求 [goodID=G3202505150144e467, IP=::1, time=2025-05-15 03:06:28]
+2025/05/15 16:43:55.802  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    27.7156ms|   match|[44m GET     [0m /api/public/trace   r:/api/public/trace
+2025/05/15 16:47:19.212  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/auth/myinfo
+2025/05/15 16:47:19.222  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:47:19.224  [D] [router.go:1305]  |            ::1|[42m 200 [0m|     2.4992ms|   match|[44m GET     [0m /api/auth/myinfo   r:/api/auth/myinfo
+2025/05/15 16:47:21.995  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:47:21.996  [D] [router.go:1305]  |            ::1|[42m 200 [0m|     1.5116ms|   match|[44m GET     [0m /api/auth/myinfo   r:/api/auth/myinfo
+2025/05/15 16:47:34.713  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/public/trace
+2025/05/15 16:47:34.720  [I] [webase_service.go:575]  开始获取货物溯源信息 [goodID=G3202505150144e467, user=ZYongJie1224, time=2025-05-14 09:05:03]
+2025/05/15 16:47:34.743  [D] [webase_service.go:266]  POST请求成功 [url=http://localhost:5002/WeBASE-Front/trans/call, responseSize=127]
+2025/05/15 16:47:34.743  [I] [webase_service.go:315]  交易调用成功 [function=getFullTrace, time=2025-05-14 09:05:03, user=ZYongJie1224]
+2025/05/15 16:47:34.743  [E] [webase_service.go:619]  无法解析溯源信息 [goodID=G3202505150144e467]
+2025/05/15 16:47:34.744  [W] [goods_service.go:391]  获取区块链溯源记录失败: 无法解析溯源信息
+2025/05/15 16:47:34.744  [I] [goods_service.go:396]  获取货物溯源信息成功 [goodID=G3202505150144e467, time=2025-05-15 02:50:46]
+2025/05/15 16:47:34.744  [I] [goods_controller.go:372]  公开溯源查询请求 [goodID=G3202505150144e467, IP=::1, time=2025-05-15 03:06:28]
+2025/05/15 16:47:34.745  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    26.9516ms|   match|[44m GET     [0m /api/public/trace   r:/api/public/trace
+2025/05/15 16:48:11.583  [D] [router.go:1305]  |            ::1|[42m 200 [0m|      357.2µs| nomatch|[47m OPTIONS [0m /api/public/trace
+2025/05/15 16:48:11.590  [I] [webase_service.go:575]  开始获取货物溯源信息 [goodID=G3202505150144e467, user=ZYongJie1224, time=2025-05-14 09:05:03]
+2025/05/15 16:48:11.613  [D] [webase_service.go:266]  POST请求成功 [url=http://localhost:5002/WeBASE-Front/trans/call, responseSize=127]
+2025/05/15 16:48:11.613  [I] [webase_service.go:315]  交易调用成功 [function=getFullTrace, time=2025-05-14 09:05:03, user=ZYongJie1224]
+2025/05/15 16:48:11.613  [E] [webase_service.go:619]  无法解析溯源信息 [goodID=G3202505150144e467]
+2025/05/15 16:48:11.613  [W] [goods_service.go:391]  获取区块链溯源记录失败: 无法解析溯源信息
+2025/05/15 16:48:11.614  [I] [goods_service.go:396]  获取货物溯源信息成功 [goodID=G3202505150144e467, time=2025-05-15 02:50:46]
+2025/05/15 16:48:11.614  [I] [goods_controller.go:372]  公开溯源查询请求 [goodID=G3202505150144e467, IP=::1, time=2025-05-15 03:06:28]
+2025/05/15 16:48:11.615  [D] [router.go:1305]  |            ::1|[42m 200 [0m|    26.9345ms|   match|[44m GET     [0m /api/public/trace   r:/api/public/trace
+2025/05/15 16:54:52.914  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/auth/myinfo
+2025/05/15 16:54:52.914  [D] [router.go:1305]  |            ::1|[42m 200 [0m|           0s| nomatch|[47m OPTIONS [0m /api/auth/myinfo
+2025/05/15 16:54:52.922  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:54:52.924  [D] [router.go:1305]  |            ::1|[42m 200 [0m|       2.37ms|   match|[44m GET     [0m /api/auth/myinfo   r:/api/auth/myinfo
+2025/05/15 16:54:52.926  [I] [auth_middleware.go:42]  token解析comid 6
+2025/05/15 16:54:52.928  [D] [router.go:1305]  |            ::1|[42m 200 [0m|     2.0128ms|   match|[44m GET     [0m /api/auth/myinfo   r:/api/auth/myinfo
