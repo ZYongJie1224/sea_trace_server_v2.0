@@ -220,7 +220,7 @@ func (u *UserController) Login() {
 	}
 
 	// 生成JWT令牌
-	token, err := utils.GenerateToken(user.ID, user.Username, user.Role, user.CompanyId)
+	token, err := utils.GenerateToken(user.Id, user.Username, user.Role, user.CompanyId)
 	if err != nil {
 		logs.Error("生成token失败: %v", err)
 		u.Data["json"] = utils.ErrorResponse("生成token失败")

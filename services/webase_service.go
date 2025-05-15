@@ -337,75 +337,80 @@ func (w *WebaseService) RegisterCompany(name string, companyType int, adminAddre
 }
 
 // RegisterGood 注册货物
-func (w *WebaseService) RegisterGood(goodID string, goodName string, userAddress string) (string, error) {
+func (w *WebaseService) RegisterGood(goodID string, goodName string, userAddress string) (string, string, error) {
 	logs.Info("开始注册货物 [goodID=%s, goodName=%s, userAddress=%s, user=%s, time=%s]",
 		goodID, goodName, userAddress, "ZYongJie1224", "2025-05-14 09:05:03")
 
 	funcParam := []interface{}{goodID, goodName}
 	result, err := w.sendTransaction("/WeBASE-Front/trans/handle", "registerGood", funcParam, userAddress)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
-	if txHash, ok := result.Data["transactionHash"].(string); ok {
-		logs.Info("货物注册成功 [goodID=%s, txHash=%s]", goodID, txHash)
-		return txHash, nil
+	if result.TransactionHash != "" {
+		logs.Info("货物注册成功 [goodID=%s, txHash=%s]", goodID, result.TransactionHash)
+		return result.TransactionHash, result.Message, nil
 	}
-	return "", errors.New("无法获取交易哈希")
+	return "", "", errors.New("无法获取交易哈希")
 }
 
 // ShipGood 运输货物
-func (w *WebaseService) ShipGood(goodID string, transportInfo string, userAddress string) (string, error) {
+func (w *WebaseService) ShipGood(goodID string, transportInfo string, userAddress string) (string, string, error) {
 	logs.Info("开始货物运输 [goodID=%s, transportInfo=%s, userAddress=%s, user=%s, time=%s]",
 		goodID, transportInfo, userAddress, "ZYongJie1224", "2025-05-14 09:05:03")
 
 	funcParam := []interface{}{goodID, transportInfo}
 	result, err := w.sendTransaction("/WeBASE-Front/trans/handle", "shipGood", funcParam, userAddress)
 	if err != nil {
-		return "", err
+		return "", result.Message, err
 	}
-
-	if txHash, ok := result.Data["transactionHash"].(string); ok {
-		logs.Info("货物运输信息上链成功 [goodID=%s, txHash=%s]", goodID, txHash)
-		return txHash, nil
+	//TODO
+	if result.TransactionHash != "" {
+		models.UpdateGoodStatus(goodID, models.GoodsStatusShipped, result.TransactionHash)
+		logs.Info("货物注册成功 [goodID=%s, txHash=%s]", goodID, result.TransactionHash)
+		return result.TransactionHash, result.Message, nil
 	}
-	return "", errors.New("无法获取交易哈希")
+	return "", "", errors.New("无法获取交易哈希")
 }
 
 // InspectGood 验货
-func (w *WebaseService) InspectGood(goodID string, inspectionInfo string, userAddress string) (string, error) {
+func (w *WebaseService) InspectGood(goodID string, inspectionInfo string, userAddress string) (string, string, error) {
 	logs.Info("开始货物验证 [goodID=%s, inspectionInfo=%s, userAddress=%s, user=%s, time=%s]",
 		goodID, inspectionInfo, userAddress, "ZYongJie1224", "2025-05-14 09:05:03")
 
 	funcParam := []interface{}{goodID, inspectionInfo}
 	result, err := w.sendTransaction("/WeBASE-Front/trans/handle", "inspectGood", funcParam, userAddress)
 	if err != nil {
-		return "", err
+		return "", result.Message, err
 	}
 
-	if txHash, ok := result.Data["transactionHash"].(string); ok {
-		logs.Info("货物验证信息上链成功 [goodID=%s, txHash=%s]", goodID, txHash)
-		return txHash, nil
+	if result.TransactionHash != "" {
+		models.UpdateGoodStatus(goodID, models.GoodsStatusInspected, result.TransactionHash)
+
+		logs.Info("货物注册成功 [goodID=%s, txHash=%s]", goodID, result.TransactionHash)
+		return result.TransactionHash, result.Message, nil
 	}
-	return "", errors.New("无法获取交易哈希")
+	return "", "", errors.New("无法获取交易哈希")
 }
 
 // DeliverGood 经销商收货
-func (w *WebaseService) DeliverGood(goodID string, deliveryInfo string, userAddress string) (string, error) {
+func (w *WebaseService) DeliverGood(goodID string, deliveryInfo string, userAddress string) (string, string, error) {
 	logs.Info("开始货物交付 [goodID=%s, deliveryInfo=%s, userAddress=%s, user=%s, time=%s]",
 		goodID, deliveryInfo, userAddress, "ZYongJie1224", "2025-05-14 09:05:03")
 
 	funcParam := []interface{}{goodID, deliveryInfo}
 	result, err := w.sendTransaction("/WeBASE-Front/trans/handle", "deliverGood", funcParam, userAddress)
 	if err != nil {
-		return "", err
+		return "", result.Message, err
 	}
 
-	if txHash, ok := result.Data["transactionHash"].(string); ok {
-		logs.Info("货物交付信息上链成功 [goodID=%s, txHash=%s]", goodID, txHash)
-		return txHash, nil
+	if result.TransactionHash != "" {
+		models.UpdateGoodStatus(goodID, models.GoodsStatusDelivered, result.TransactionHash)
+
+		logs.Info("货物注册成功 [goodID=%s, txHash=%s]", goodID, result.TransactionHash)
+		return result.TransactionHash, result.Message, nil
 	}
-	return "", errors.New("无法获取交易哈希")
+	return "", "", errors.New("无法获取交易哈希")
 }
 
 // GetNodeList 获取节点列表

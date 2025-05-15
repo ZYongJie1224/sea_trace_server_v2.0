@@ -14,11 +14,11 @@ import (
 // User 用户模型
 // User 用户模型
 type User struct {
-	ID             int       `orm:"pk;auto" json:"id"`
+	Id             int       `orm:"pk;auto" json:"id"`
 	Username       string    `orm:"size(50);unique" json:"username"`
 	Password       string    `orm:"size(255)" json:"-"`
 	RealName       string    `orm:"size(50);null" json:"real_name"`
-	AvatarURL      string    `orm:"size(255);null" json:"avatar_url"`
+	AvatarUrl      string    `orm:"size(255);null" json:"avatar_url"`
 	Role           string    `orm:"size(20)" json:"role"`                      // super_admin, company_admin, operator
 	CompanyId      int       `orm:"column(company_id);null" json:"company_id"` // 确保字段映射正确
 	Email          string    `orm:"size(100);null" json:"email"`
@@ -28,7 +28,7 @@ type User struct {
 	UpdatedAt      time.Time `orm:"auto_now" json:"updated_at"`
 	LastLogin      time.Time `orm:"null" json:"last_login"`
 	BlockchainAddr string    `orm:"size(42);null" json:"blockchain_addr"` // 区块链钱包地址
-	SignUserID     string    `orm:"size(64);null" json:"sign_user_id"`    // WeBASE-Sign用户ID
+	SignUserId     string    `orm:"size(64);null" json:"sign_user_id"`    // WeBASE-Sign用户ID
 	BlockchainType int       `orm:"default(0)" json:"blockchain_type"`    // 区块链用户类型
 	CompanyName    string    `orm:"-" json:"company_name"`                // 非数据库字段，仅用于API返回
 }
@@ -210,7 +210,7 @@ func GetUser(uid string) (*User, error) {
 	}
 
 	o := orm.NewOrm()
-	user := &User{ID: id}
+	user := &User{Id: id}
 	err = o.Read(user)
 	return user, err
 }
@@ -218,7 +218,7 @@ func GetUser(uid string) (*User, error) {
 // GetUserByID 根据ID获取用户 (int版本)
 func GetUserByID(id int) (*User, error) {
 	o := orm.NewOrm()
-	user := &User{ID: id}
+	user := &User{Id: id}
 
 	if err := o.Read(user); err != nil {
 		return nil, err
@@ -243,7 +243,7 @@ func GetUserByUsername(username string) (*User, error) {
 // UpdateLastLogin 更新用户最后登录时间
 func UpdateLastLogin(userID int) error {
 	o := orm.NewOrm()
-	user := &User{ID: userID}
+	user := &User{Id: userID}
 	if err := o.Read(user); err != nil {
 		return err
 	}
@@ -261,7 +261,7 @@ func UpdateUser(uid string, userUpdate *User) (*User, error) {
 	}
 
 	o := orm.NewOrm()
-	existingUser := &User{ID: id}
+	existingUser := &User{Id: id}
 	if err = o.Read(existingUser); err != nil {
 		return nil, err
 	}
@@ -282,8 +282,8 @@ func UpdateUser(uid string, userUpdate *User) (*User, error) {
 	if userUpdate.Phone != "" {
 		existingUser.Phone = userUpdate.Phone
 	}
-	if userUpdate.AvatarURL != "" {
-		existingUser.AvatarURL = userUpdate.AvatarURL
+	if userUpdate.AvatarUrl != "" {
+		existingUser.AvatarUrl = userUpdate.AvatarUrl
 	}
 	if userUpdate.CompanyId != 0 {
 		existingUser.CompanyId = userUpdate.CompanyId
@@ -313,14 +313,14 @@ func DeleteUser(uid string) error {
 	}
 
 	o := orm.NewOrm()
-	_, err = o.Delete(&User{ID: id})
+	_, err = o.Delete(&User{Id: id})
 	return err
 }
 
 // DeleteUserByID 根据ID删除用户 (int版本)
 func DeleteUserByID(id int) error {
 	o := orm.NewOrm()
-	_, err := o.Delete(&User{ID: id})
+	_, err := o.Delete(&User{Id: id})
 	return err
 }
 

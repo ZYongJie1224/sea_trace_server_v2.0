@@ -16,6 +16,23 @@ func init() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	// 创建货物控制器实例
+	goodsController := controllers.NewGoodsController()
+
+	// ================= 新增：货物溯源相关路由 =================
+	// 公共溯源查询接口 - 无需认证（使用参数形式）
+	web.Router("/api/public/trace", goodsController, "get:PublicTrace") // 新增：公开溯源查询接口
+
+	// 货物管理API - 需要操作员权限
+	web.Router("/api/operator/goods/register", goodsController, "post:RegisterGood") // 新增：生产商注册货物
+	web.Router("/api/operator/goods/ship", goodsController, "post:ShipGood")         // 新增：运输商运输货物
+	web.Router("/api/operator/goods/inspect", goodsController, "post:InspectGood")   // 新增：验货商验货
+	web.Router("/api/operator/goods/deliver", goodsController, "post:DeliverGood")   // 新增：经销商交付货物
+	web.Router("/api/operator/goods/list", goodsController, "get:GetGoodsList")      // 新增：获取货物列表
+	web.Router("/api/operator/goods/trace", goodsController, "get:GetGoodsTrace")    // 新增：获取货物溯源信息
+	// =========================================================
+
 	// 公司管理员路由
 	web.Router("/api/admin/company/info", &controllers.CompanyAdminController{}, "get:CompanyInfo;put:UpdateCompanyInfo")
 
@@ -37,15 +54,12 @@ func init() {
 	// 认证接口 - 无需认证
 	web.Router("/api/auth/login", &controllers.AuthController{}, "post:Login")
 
-	// 公共溯源查询接口 - 无需认证
-	web.Router("/api/chain/trace/:goodId", &controllers.ChainController{}, "get:TraceInfo")
-
 	// 用户控制器实例
 	authController := &controllers.AuthController{}
 	chainController := &controllers.ChainController{}
 	superAdminController := &controllers.SuperAdminController{}
 	companyAdminController := &controllers.CompanyAdminController{}
-	operatorController := &controllers.OperatorController{}
+	// operatorController := &controllers.OperatorController{}
 
 	// 需要JWT认证的路由
 	web.Router("/api/auth/myinfo", authController, "get:MyInfo")
@@ -81,11 +95,11 @@ func init() {
 	web.Router("/api/admin/user/update/:id", &controllers.UserManagementController{}, "put:UpdateUser")
 	web.Router("/api/admin/user/delete/:id", &controllers.UserManagementController{}, "delete:DeleteUser")
 
-	// 操作员路由 - 根据公司类型进行操作
-	web.Router("/api/operator/reggood", operatorController, "post:RegisterGood")    // 货主注册货物
-	web.Router("/api/operator/shipgood", operatorController, "post:ShipGood")       // 船东运输登记
-	web.Router("/api/operator/inspectgood", operatorController, "post:InspectGood") // 港口验货登记
-	web.Router("/api/operator/delivergood", operatorController, "post:DeliverGood") // 经销商收货登记
+	// // 操作员路由 - 根据公司类型进行操作
+	// web.Router("/api/operator/reggood", operatorController, "post:RegisterGood")    // 货主注册货物
+	// web.Router("/api/operator/shipgood", operatorController, "post:ShipGood")       // 船东运输登记
+	// web.Router("/api/operator/inspectgood", operatorController, "post:InspectGood") // 港口验货登记
+	// web.Router("/api/operator/delivergood", operatorController, "post:DeliverGood") // 经销商收货登记
 
 	// 为所有操作员路由添加中间件
 	web.InsertFilter("/api/operator/*", web.BeforeRouter, middleware.JWTAuth)

@@ -25,52 +25,52 @@ type RegisterGoodRequest struct {
 
 // RegisterGood 货主注册货物
 // @router /api/operator/reggood [post]
-func (c *OperatorController) RegisterGood() {
-	companyID := c.Ctx.Input.GetData("company_id").(int)
-	username := c.Ctx.Input.GetData("username").(string)
+// func (c *OperatorController) RegisterGood() {
+// 	companyID := c.Ctx.Input.GetData("company_id").(int)
+// 	username := c.Ctx.Input.GetData("username").(string)
 
-	// 验证是否为货主公司
-	company, err := models.GetCompanyByID(companyID)
-	if err != nil || company.CompanyType != models.Producer {
-		c.Data["json"] = utils.ErrorResponse("只有生产商才能注册货物")
-		c.ServeJSON()
-		return
-	}
+// 	// 验证是否为货主公司
+// 	company, err := models.GetCompanyByID(companyID)
+// 	if err != nil || company.CompanyType != models.Producer {
+// 		c.Data["json"] = utils.ErrorResponse("只有生产商才能注册货物")
+// 		c.ServeJSON()
+// 		return
+// 	}
 
-	var req RegisterGoodRequest
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &req); err != nil {
-		c.Data["json"] = utils.ErrorResponse("无效的请求数据")
-		c.ServeJSON()
-		return
-	}
+// 	var req RegisterGoodRequest
+// 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &req); err != nil {
+// 		c.Data["json"] = utils.ErrorResponse("无效的请求数据")
+// 		c.ServeJSON()
+// 		return
+// 	}
 
-	// 调用区块链服务
-	webaseService := services.NewWebaseService()
-	userAddress := "0x" + username // 简化处理，实际中需要获取正确的用户地址
+// 	// 调用区块链服务
+// 	webaseService := services.NewWebaseService()
+// 	userAddress := "0x" + username // 简化处理，实际中需要获取正确的用户地址
 
-	txHash, err := webaseService.RegisterGood(req.GoodID, req.GoodName, userAddress)
-	if err != nil {
-		logs.Error("区块链注册货物失败: %v", err)
-		c.Data["json"] = utils.ErrorResponse("区块链注册货物失败: " + err.Error())
-		c.ServeJSON()
-		return
-	}
+// 	txHash, err := webaseService.RegisterGood(req.GoodID, req.GoodName, userAddress)
+// 	if err != nil {
+// 		logs.Error("区块链注册货物失败: %v", err)
+// 		c.Data["json"] = utils.ErrorResponse("区块链注册货物失败: " + err.Error())
+// 		c.ServeJSON()
+// 		return
+// 	}
 
-	// 保存货物记录到数据库
-	_, err = models.SaveGood(req.GoodID, req.GoodName, companyID, req.Description)
-	if err != nil {
-		logs.Error("保存货物信息失败: %v", err)
-		c.Data["json"] = utils.ErrorResponse("保存货物信息失败: " + err.Error())
-		c.ServeJSON()
-		return
-	}
+// 	// 保存货物记录到数据库
+// 	_, err = models.SaveGood(req.GoodID, req.GoodName, companyID, req.Description)
+// 	if err != nil {
+// 		logs.Error("保存货物信息失败: %v", err)
+// 		c.Data["json"] = utils.ErrorResponse("保存货物信息失败: " + err.Error())
+// 		c.ServeJSON()
+// 		return
+// 	}
 
-	c.Data["json"] = utils.SuccessResponse(map[string]string{
-		"tx_hash": txHash,
-		"good_id": req.GoodID,
-	})
-	c.ServeJSON()
-}
+// 	c.Data["json"] = utils.SuccessResponse(map[string]string{
+// 		"tx_hash": txHash,
+// 		"good_id": req.GoodID,
+// 	})
+// 	c.ServeJSON()
+// }
 
 // ShipGoodRequest 运输货物请求
 type ShipGoodRequest struct {
@@ -111,7 +111,7 @@ func (c *OperatorController) ShipGood() {
 	webaseService := services.NewWebaseService()
 	userAddress := "0x" + username // 简化处理，实际中需要获取正确的用户地址
 
-	txHash, err := webaseService.ShipGood(req.GoodID, req.TransportInfo, userAddress)
+	txHash, message, err := webaseService.ShipGood(req.GoodID, req.TransportInfo, userAddress)
 	if err != nil {
 		logs.Error("区块链运输登记失败: %v", err)
 		c.Data["json"] = utils.ErrorResponse("区块链运输登记失败: " + err.Error())
@@ -121,6 +121,7 @@ func (c *OperatorController) ShipGood() {
 
 	c.Data["json"] = utils.SuccessResponse(map[string]string{
 		"tx_hash": txHash,
+		"message": message,
 	})
 	c.ServeJSON()
 }
@@ -164,7 +165,7 @@ func (c *OperatorController) InspectGood() {
 	webaseService := services.NewWebaseService()
 	userAddress := "0x" + username
 
-	txHash, err := webaseService.InspectGood(req.GoodID, req.InspectionInfo, userAddress)
+	txHash, message, err := webaseService.InspectGood(req.GoodID, req.InspectionInfo, userAddress)
 	if err != nil {
 		logs.Error("区块链验货登记失败: %v", err)
 		c.Data["json"] = utils.ErrorResponse("区块链验货登记失败: " + err.Error())
@@ -174,6 +175,7 @@ func (c *OperatorController) InspectGood() {
 
 	c.Data["json"] = utils.SuccessResponse(map[string]string{
 		"tx_hash": txHash,
+		"message": message,
 	})
 	c.ServeJSON()
 }
@@ -217,7 +219,7 @@ func (c *OperatorController) DeliverGood() {
 	webaseService := services.NewWebaseService()
 	userAddress := "0x" + username
 
-	txHash, err := webaseService.DeliverGood(req.GoodID, req.DeliveryInfo, userAddress)
+	txHash, message, err := webaseService.DeliverGood(req.GoodID, req.DeliveryInfo, userAddress)
 	if err != nil {
 		logs.Error("区块链收货登记失败: %v", err)
 		c.Data["json"] = utils.ErrorResponse("区块链收货登记失败: " + err.Error())
@@ -227,6 +229,7 @@ func (c *OperatorController) DeliverGood() {
 
 	c.Data["json"] = utils.SuccessResponse(map[string]string{
 		"tx_hash": txHash,
+		"message": message,
 	})
 	c.ServeJSON()
 }

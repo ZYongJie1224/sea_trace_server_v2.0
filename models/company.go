@@ -117,11 +117,11 @@ func GetCompanyOperators(companyID, page, pageSize int, search string) ([]*User,
 // GetUserInfo 获取用户信息
 func GetUserInfo(user *User) map[string]interface{} {
 	info := map[string]interface{}{
-		"id":         user.ID,
+		"id":         user.Id,
 		"username":   user.Username,
 		"role":       user.Role,
 		"real_name":  user.RealName,
-		"avatar":     user.AvatarURL,
+		"avatar":     user.AvatarUrl,
 		"email":      user.Email,
 		"phone":      user.Phone,
 		"status":     user.Status,

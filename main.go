@@ -24,6 +24,13 @@ func init() {
 
 	// 注册模型
 	orm.RegisterModel(new(models.User), new(models.Company), new(models.Goods))
+	// 注册新增的货物溯源模型
+	orm.RegisterModel(new(models.GoodsProduction))
+	orm.RegisterModel(new(models.GoodsTransport))
+	orm.RegisterModel(new(models.GoodsInspection))
+	orm.RegisterModel(new(models.GoodsDelivery))
+
+	logs.Info("已注册所有数据模型 [time=%s]", "2025-05-15 04:23:31")
 
 	// 自动创建表（开发模式）
 	orm.RunSyncdb("default", false, true)

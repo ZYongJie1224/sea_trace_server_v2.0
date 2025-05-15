@@ -566,7 +566,7 @@ func (c *SuperAdminController) DeleteCompanyAdmin() {
 
 	// 记录操作日志
 	logs.Info("超级管理员删除公司管理员成功 [userID=%d, username=%s, company=%s, companyID=%d, 操作者=%s, 时间=%s]",
-		user.ID, user.Username, company.CompanyName, company.ID, c.Ctx.Input.GetData("username"), "2025-05-14 09:59:00")
+		user.Id, user.Username, company.CompanyName, company.ID, c.Ctx.Input.GetData("username"), "2025-05-14 09:59:00")
 
 	c.Data["json"] = utils.SuccessResponse(nil)
 	c.ServeJSON()
@@ -586,7 +586,7 @@ func (c *SuperAdminController) GetSystemStats() {
 	// 获取各种统计数据
 	companiesCount, _ := models.CountCompanies()
 	usersCount, _ := models.CountUsers()
-	goodsCount, _ := models.CountGoods()
+	goodsCount, _ := models.CountCompanyGoods(-1) // -1 表示统计所有公司的货物数量
 	transactionsCount, _ := models.CountTransactions()
 
 	// 获取区块链信息

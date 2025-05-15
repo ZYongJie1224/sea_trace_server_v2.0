@@ -61,14 +61,14 @@ func (c *AuthController) Login() {
 	}
 
 	// 更新最后登录时间
-	models.UpdateLastLogin(user.ID)
+	models.UpdateLastLogin(user.Id)
 
 	// 记录登录成功
 	logs.Info("用户登录成功 [username=%s, role=%s, company_id=%d, time=%s]",
 		user.Username, user.Role, user.CompanyId, "2025-05-14 07:21:42")
 
 	// 生成令牌
-	token, err := utils.GenerateToken(user.ID, user.Username, user.Role, user.CompanyId)
+	token, err := utils.GenerateToken(user.Id, user.Username, user.Role, user.CompanyId)
 	if err != nil {
 		logs.Error("生成token失败: %v", err)
 		c.Data["json"] = utils.ErrorResponse("生成token失败")
